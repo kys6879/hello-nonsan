@@ -1,6 +1,5 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { CounterComponent } from './counter/counter.component';
-import { read } from 'fs';
 
 @Component({
   selector: 'app-root',

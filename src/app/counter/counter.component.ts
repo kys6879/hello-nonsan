@@ -3,7 +3,6 @@ import { Observable, interval, Subscription } from 'rxjs';
 
 import { take } from 'rxjs/operators';
 import 'rxjs/add/operator/map';
-import { runInThisContext } from 'vm';
 @Component({
   selector: 'app-counter',
   templateUrl: './counter.component.html',
@@ -12,7 +11,7 @@ import { runInThisContext } from 'vm';
 })
 export class CounterComponent implements OnInit {
 
-  startAt = 5;
+  startAt = 500;
 
   @Output()
   counterState = new EventEmitter<string>();
