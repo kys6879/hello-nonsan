@@ -11,7 +11,7 @@ import 'rxjs/add/operator/map';
 })
 export class CounterComponent implements OnInit {
 
-  startAt = 3603;
+  startAt = 36000;
 
   @Output()
   counterState = new EventEmitter<string>();
@@ -33,7 +33,7 @@ export class CounterComponent implements OnInit {
 
     const t: Observable<number> = interval(1000);
 
-    this.currentSubscription = t.pipe(take(this.startAt)).map(v => this.startAt - (v + 1)).subscribe(v => {
+    this.currentSubscription = t.pipe(take(this.startAt)).map(v => {console.log(v); return this.startAt - (v + 1)}).subscribe(v => {
       this.currentValue = this.formatValue(v);
       this.changeDetector.detectChanges();
     }, err => {
@@ -54,7 +54,7 @@ export class CounterComponent implements OnInit {
 
     const hours = Math.floor(v / 3600);
 
-    const minutes = Math.floor(v / 60);
+    const minutes = Math.floor((v % 3600)/60);
 
     const formattedMinutes = (minutes > 9 ? minutes : '0' + minutes);
 
