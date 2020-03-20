@@ -65,10 +65,9 @@ export class CounterComponent implements OnInit {
 
     const formattedMinutes = (minutes > 9 ? minutes : '0' + minutes);
 
-    const seconds = v % 60;
+    const seconds = Math.floor(v % 60);
 
     const formattedSeconds = (seconds > 9 ? seconds : '0' + seconds);
-
 
     return `${hours}시간 ${formattedMinutes}분 ${formattedSeconds}초`;
 
