@@ -3,6 +3,8 @@ import { Observable, interval, Subscription } from 'rxjs';
 
 import { take } from 'rxjs/operators';
 import 'rxjs/add/operator/map';
+
+import { Timer } from '../models/timer.model';
 @Component({
   selector: 'app-counter',
   templateUrl: './counter.component.html',
@@ -20,6 +22,8 @@ export class CounterComponent implements OnInit {
   // 목표시간까지 남은 초를 구함
 
   startAt = 36000;
+
+  timerSet: Timer;
 
 
   @Output()
@@ -74,6 +78,15 @@ export class CounterComponent implements OnInit {
     const seconds = Math.floor(v % 60);
 
     const formattedSeconds = (seconds > 9 ? seconds : '0' + seconds);
+
+    this.timerSet = {
+      days: days,
+      hours: hours,
+      minutes: minutes,
+      seconds: seconds
+    }
+
+    console.log(this.timerSet);
 
     return `${days}일 ${hours}시 ${formattedMinutes}분 ${formattedSeconds}초`;
 
