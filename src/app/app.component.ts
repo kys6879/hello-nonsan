@@ -10,7 +10,6 @@ export class AppComponent implements OnInit {
 
   title = 'hello-nonsan';
 
-  today: Date;
   lastDay: Date;
 
   leftDay;
@@ -21,6 +20,15 @@ export class AppComponent implements OnInit {
   private counter: CounterComponent;
 
   ngOnInit(): void {
+
+    let today: Date = new Date();
+
+    let goalDay: Date = new Date(2020, 2, 26, 14);
+
+    let betweenDay = (goalDay.getTime() - today.getTime());
+
+    this.counter.startAt = betweenDay / 1000;
+
     this.counter.start();
     this.counter.counterState.subscribe(state => {
       if (state === 'COMPLETE') {
@@ -29,10 +37,6 @@ export class AppComponent implements OnInit {
       }
     });
 
-    this.today = new Date();
-    this.lastDay = new Date('2020-03-26');
-
-    this.leftDay = this.today.getDate();
   }
 
 

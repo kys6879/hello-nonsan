@@ -11,7 +11,16 @@ import 'rxjs/add/operator/map';
 })
 export class CounterComponent implements OnInit {
 
+  // 목표시간을 입력하면
+  // 현재시간에서 빼서 알려줌
+
+  // 현재 시간을 초로 구하고
+  // 목표시간을 초로 구한걸 뻄
+
+  // 목표시간까지 남은 초를 구함
+
   startAt = 36000;
+
 
   @Output()
   counterState = new EventEmitter<string>();
@@ -19,7 +28,6 @@ export class CounterComponent implements OnInit {
   currentValue = '';
 
   currentSubscription: Subscription;
-
 
   constructor(private changeDetector: ChangeDetectorRef) { }
 
@@ -33,7 +41,7 @@ export class CounterComponent implements OnInit {
 
     const t: Observable<number> = interval(1000);
 
-    this.currentSubscription = t.pipe(take(this.startAt)).map(v => {console.log(v); return this.startAt - (v + 1)}).subscribe(v => {
+    this.currentSubscription = t.pipe(take(this.startAt)).map(v => { return this.startAt - (v + 1) }).subscribe(v => {
       this.currentValue = this.formatValue(v);
       this.changeDetector.detectChanges();
     }, err => {
@@ -51,10 +59,9 @@ export class CounterComponent implements OnInit {
   }
 
   private formatValue(v) {
-
     const hours = Math.floor(v / 3600);
 
-    const minutes = Math.floor((v % 3600)/60);
+    const minutes = Math.floor((v % 3600) / 60);
 
     const formattedMinutes = (minutes > 9 ? minutes : '0' + minutes);
 
@@ -62,8 +69,8 @@ export class CounterComponent implements OnInit {
 
     const formattedSeconds = (seconds > 9 ? seconds : '0' + seconds);
 
-    return `${hours}시간 ${formattedMinutes}분 ${formattedSeconds}초`;
 
+    return `${hours}시간 ${formattedMinutes}분 ${formattedSeconds}초`;
 
   }
 
