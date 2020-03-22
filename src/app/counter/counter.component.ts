@@ -24,6 +24,7 @@ export class CounterComponent implements OnInit {
   startAt;
 
   timerSet: Timer;
+  isDone: boolean = false;
 
 
   @Output()
@@ -36,7 +37,7 @@ export class CounterComponent implements OnInit {
   constructor(private changeDetector: ChangeDetectorRef) { }
 
   ngOnInit() {
-
+    console.log("currentValue --- >", this.currentValue)
   }
 
   public start() {
@@ -51,8 +52,9 @@ export class CounterComponent implements OnInit {
     }, err => {
       this.counterState.error(err);
     }, () => {
-      this.currentValue = '00:00';
+      this.currentValue = '훈련중!';
       this.counterState.emit('COMPLETE');
+      console.log("Complete!")
       this.changeDetector.detectChanges();
     });
   }

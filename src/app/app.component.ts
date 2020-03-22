@@ -21,7 +21,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
 
-    let today: Date = new Date();
+    let today: Date = new Date(2020, 2, 26, 13);
 
     let goalDay: Date = new Date(2020, 2, 26, 14);
 
@@ -29,13 +29,23 @@ export class AppComponent implements OnInit {
 
     this.counter.startAt = betweenDay / 1000;
 
-    this.counter.start();
-    this.counter.counterState.subscribe(state => {
-      if (state === 'COMPLETE') {
-        alert('Done!');
-        this.counter.stop();
-      }
-    });
+    if (betweenDay <= 0) {
+      this.counter.isDone = true;
+      this.counter.currentValue = "훈련중";
+      console.log("끝~~");
+    } else {
+      this.counter.start();
+      this.counter.counterState.subscribe(state => {
+        if (state === 'COMPLETE') {
+          alert('Done!');
+          this.counter.isDone = true;
+          this.counter.stop();
+        }
+      });
+    }
+
+
+
 
   }
 

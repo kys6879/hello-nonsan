@@ -12,11 +12,15 @@
         </div>
       </div>
       <div class="column">
-        <div class="sub-title ">
+        <div class="sub-title" *ngIf="!isDone">
           김영서 훈련소 입영까지
         </div>
+        <div class="sub-title" *ngIf="isDone">
+          지금은
+        </div>
         <div class="title is-1">
-          {{timerSet | timerFormat}}
+          <!-- {{timerSet | timerFormat}} -->
+          {{this.currentValue}}
         </div>
       </div>
     </div>
