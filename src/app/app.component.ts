@@ -21,7 +21,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
 
-    let today: Date = new Date(2020, 2, 26, 13);
+    let today: Date = new Date();
 
     let goalDay: Date = new Date(2020, 2, 26, 14);
 

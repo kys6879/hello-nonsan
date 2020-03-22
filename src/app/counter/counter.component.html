@@ -1,26 +1,27 @@
 <section class="section hero is-info is-bold">
   <div class="hero-body">
 
-    <div class="container has-text-centered columns is-vcentered">
-
-      <div class="column">
-        <div class="title is-1">
-          2020-03-26 ~ 2020-04-23
+    <div class="container">
+      <div class="has-text-centered columns">
+        <div class="column">
+          <div class="title is-1">
+            2020-03-26 ~ 2020-04-23
+          </div>
+          <div class="sub-title ">
+            동안 다녀올게요..
+          </div>
         </div>
-        <div class="sub-title ">
-          동안 다녀올게요..
-        </div>
-      </div>
-      <div class="column">
-        <div class="sub-title" *ngIf="!isDone">
-          김영서 훈련소 입영까지
-        </div>
-        <div class="sub-title" *ngIf="isDone">
-          지금은
-        </div>
-        <div class="title is-1">
-          <!-- {{timerSet | timerFormat}} -->
-          {{this.currentValue}}
+        <div class="column">
+          <div class="sub-title" *ngIf="!isDone">
+            김영서 훈련소 입영까지
+          </div>
+          <div class="sub-title" *ngIf="isDone">
+            지금은
+          </div>
+          <div class="title is-1">
+            <!-- {{timerSet | timerFormat}} -->
+            {{this.currentValue}}
+          </div>
         </div>
       </div>
     </div>
