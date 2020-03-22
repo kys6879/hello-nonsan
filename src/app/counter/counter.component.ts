@@ -21,7 +21,7 @@ export class CounterComponent implements OnInit {
 
   // 목표시간까지 남은 초를 구함
 
-  startAt = 36000;
+  startAt;
 
   timerSet: Timer;
 
