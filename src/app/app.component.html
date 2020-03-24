@@ -16,11 +16,14 @@
             김영서 훈련소 입영까지
           </div>
           <div class="sub-title" *ngIf="isDone">
-            지금은
+            지금은 훈련중! 영서 수료식까지
           </div>
           <div class="title is-1">
             <!-- {{timerSet | timerFormat}} -->
             {{this.currentValue}}
+          </div>
+          <div class="sub-title" *ngIf="isDone">
+            남았습니다!
           </div>
         </div>
       </div>

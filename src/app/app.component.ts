@@ -24,17 +24,18 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.startAt = this.getStartTimeSec();
-
-    if (this.getBetweenDay() <= 0) { // 현재 시간이 목표시간보다 크면
+    if (this.isOverTime(new Date(2020, 3, 23, 14))) { // 현재 시간이 목표시간보다 크면
       this.isDone = true;
-      this.currentValue = "훈련중";
+      this.startAt = this.getAfterTimeSec();
+      console.log("훈련중임!");
     } else { // 카운트 다운 필요
-      this.start();
+      this.startAt = this.getStartTimeSec();
     }
+
+    this.startBeforeTime();
   }
 
-  public start() {
+  public startBeforeTime() {
     this.currentValue = this.formatValue(this.startAt);
 
     const t: Observable<number> = interval(1000);
@@ -43,10 +44,8 @@ export class AppComponent implements OnInit {
       this.currentValue = this.formatValue(v);
     }, e => { }, () => {
       this.isDone = true;
-      this.currentValue = "훈련중";
       this.stop();
     });
-
   }
 
   public stop() {
@@ -75,15 +74,24 @@ export class AppComponent implements OnInit {
 
   private getStartTimeSec() {
 
-    let betweenDay = this.getBetweenDay();
+    let goalDay: Date = new Date(2020, 2, 26, 14);
+
+    let betweenDay = this.getBetweenDay(goalDay);
 
     return betweenDay / 1000;
   }
 
-  private getBetweenDay() {
-    let today: Date = new Date();
+  private getAfterTimeSec() {
 
-    let goalDay: Date = new Date(2020, 2, 26, 14);
+    let goalDay: Date = new Date(2020, 3, 23, 14);
+
+    let betweenDay = this.getBetweenDay(goalDay);
+
+    return betweenDay / 1000;
+  }
+
+  private getBetweenDay(goalDay: Date) {
+    let today: Date = new Date();
 
     let betweenDay = (goalDay.getTime() - today.getTime());
 
@@ -92,5 +100,16 @@ export class AppComponent implements OnInit {
     return betweenDay;
   }
 
+  private isOverTime(goalDay: Date): boolean {
+    let today: Date = new Date();
+
+    let betweenDay = (goalDay.getTime() - today.getTime());
+
+    return (betweenDay >= 0) ? true : false;
+  }
+
 
 }
+
+
+
