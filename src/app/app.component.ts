@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { take } from 'rxjs/operators';
 import { Observable, interval, Subscription } from 'rxjs';
 import { Timer } from './models/timer.model';
@@ -8,48 +8,75 @@ import { Timer } from './models/timer.model';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
 
   title = 'hello-nonsan';
 
+  step: string;
+
   startAt: number;
+
   isDone: boolean = false;
+  isDoneTraining: boolean = false;
 
   currentValue = '';
 
-  timerSet: Timer;
+  countSubscription$: Subscription;
 
-  currentSubscription: Subscription;
-
+  testSubscription$: Subscription;
 
   ngOnInit(): void {
 
-    if (this.isOverTime(new Date(2020, 3, 23, 14))) { // 현재 시간이 목표시간보다 크면
-      this.isDone = true;
-      this.startAt = this.getAfterTimeSec();
-      console.log("훈련중임!");
-    } else { // 카운트 다운 필요
-      this.startAt = this.getStartTimeSec();
+    this.setStep();
+    console.log("step --->", this.step);
+    if (this.isEndNonsan()) { // 훈련 끝
+      this.currentValue = "끝났당~~"
+    } else {
+      if (this.isStartNonsan()) { // 훈련 시작
+        this.startAt = this.calStartAt(this.endTime)
+      } else { // 훈련 전
+        this.startAt = this.calStartAt(this.startTime)
+      }
+      this.startCountDown();
     }
-
-    this.startBeforeTime();
   }
 
-  public startBeforeTime() {
+  public startCountDown() {
     this.currentValue = this.formatValue(this.startAt);
 
     const t: Observable<number> = interval(1000);
 
-    this.currentSubscription = t.pipe(take(this.startAt)).map(v => { return this.startAt - (v + 1) }).subscribe(v => {
+    this.countSubscription$ = t.pipe(take(this.startAt)).map(v => { return this.startAt - (v + 1) }).subscribe(v => {
       this.currentValue = this.formatValue(v);
-    }, e => { }, () => {
-      this.isDone = true;
+      console.log(v);
+    }, e => {
+      console.log("error!", e);
+    }, () => {
+      console.log("끝!!!")
+      this.setStep();
+
       this.stop();
     });
   }
 
+  public testSub() {
+
+  }
+
   public stop() {
-    this.currentSubscription.unsubscribe();
+    this.countSubscription$.unsubscribe();
+  }
+
+  private setStep(): void {
+    if (this.isStartNonsan()) {
+      this.step = 'START';
+    }
+    else if (this.isEndNonsan()) {
+      this.step = 'END';
+    } else {
+      this.step = 'NORMAL';
+    }
+    console.log("Set setep ---------->", this.step);
   }
 
   private formatValue(v) {
@@ -72,25 +99,12 @@ export class AppComponent implements OnInit {
     return `${days}일 ${hours}시 ${formattedMinutes}분 ${formattedSeconds}초`;
   }
 
-  private getStartTimeSec() {
-
-    let goalDay: Date = new Date(2020, 2, 26, 14);
-
-    let betweenDay = this.getBetweenDay(goalDay);
-
+  private calStartAt(goalDay: Date) {
+    let betweenDay = this.calBetweenDay(goalDay);
     return betweenDay / 1000;
   }
 
-  private getAfterTimeSec() {
-
-    let goalDay: Date = new Date(2020, 3, 23, 14);
-
-    let betweenDay = this.getBetweenDay(goalDay);
-
-    return betweenDay / 1000;
-  }
-
-  private getBetweenDay(goalDay: Date) {
+  private calBetweenDay(goalDay: Date) {
     let today: Date = new Date();
 
     let betweenDay = (goalDay.getTime() - today.getTime());
@@ -105,10 +119,34 @@ export class AppComponent implements OnInit {
 
     let betweenDay = (goalDay.getTime() - today.getTime());
 
-    return (betweenDay >= 0) ? true : false;
+    return (betweenDay <= 0) ? true : false;
   }
 
 
+  private isStartNonsan() {
+    return (this.isOverTime(this.startTime) ? true : false);
+  }
+
+  private isEndNonsan() {
+    return (this.isOverTime(this.endTime) ? true : false);
+  }
+
+
+  // get startTime(): Date { return new Date(2020, 2, 26, 14) }
+  // get endTime(): Date { return new Date(2020, 3, 23, 14) }
+
+  // get startTime(): Date { return new Date(2020, 2, 24, 14) }
+  // get endTime(): Date { return new Date(2020, 2, 24, 17, 3, 0) }
+
+  // get startTime(): Date { return new Date(2020, 2, 23, 14) }
+  // get endTime(): Date { return new Date(2020, 2, 23, 15) }
+
+  get startTime(): Date { return new Date(2020, 2, 24, 18, 25) } // 입소일
+  get endTime(): Date { return new Date(2020, 3, 24, 15) } // 퇴소일
+
+  ngOnDestroy(): void {
+    this.stop();
+  }
 }
 
 

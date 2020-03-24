@@ -12,18 +12,15 @@
           </div>
         </div>
         <div class="column">
-          <div class="sub-title" *ngIf="!isDone">
+          <div class="sub-title" *ngIf="step === 'NORMAL'">
             김영서 훈련소 입영까지
           </div>
-          <div class="sub-title" *ngIf="isDone">
+          <div class="sub-title" *ngIf="step === 'START'">
             지금은 훈련중! 영서 수료식까지
           </div>
           <div class="title is-1">
             <!-- {{timerSet | timerFormat}} -->
             {{this.currentValue}}
-          </div>
-          <div class="sub-title" *ngIf="isDone">
-            남았습니다!
           </div>
         </div>
       </div>
