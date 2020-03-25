@@ -28,17 +28,19 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
 
     this.setStep();
-    console.log("step --->", this.step);
-    if (this.isEndNonsan()) { // 훈련 끝
-      this.currentValue = "끝났당~~"
-    } else {
-      if (this.isStartNonsan()) { // 훈련 시작
-        this.startAt = this.calStartAt(this.endTime)
-      } else { // 훈련 전
-        this.startAt = this.calStartAt(this.startTime)
-      }
-      this.startCountDown();
-    }
+    console.log("#ngOnInit 설정된 step 은 --> !",this.step);
+
+
+    // if (this.isEndNonsan()) { // 훈련 끝
+    //   this.currentValue = "끝났당~~"
+    // } else {
+    //   if (this.isStartNonsan()) { // 훈련 시작
+    //     this.startAt = this.calStartAt(this.endTime)
+    //   } else { // 훈련 전
+    //     this.startAt = this.calStartAt(this.startTime)
+    //   }
+    //   this.startCountDown();
+    // }
   }
 
   public startCountDown() {
@@ -68,15 +70,17 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private setStep(): void {
+    console.log("#setStep start!");
+
     if (this.isStartNonsan()) {
       this.step = 'START';
+      if(this.isEndNonsan()) {
+        this.step = 'END'
+      }
     }
-    else if (this.isEndNonsan()) {
-      this.step = 'END';
-    } else {
-      this.step = 'NORMAL';
-    }
-    console.log("Set setep ---------->", this.step);
+     else {
+      this.step = 'NORMAL'
+     }
   }
 
   private formatValue(v) {
@@ -118,12 +122,12 @@ export class AppComponent implements OnInit, OnDestroy {
     let today: Date = new Date();
 
     let betweenDay = (goalDay.getTime() - today.getTime());
-
     return (betweenDay <= 0) ? true : false;
   }
 
 
   private isStartNonsan() {
+    console.log("#isStartNonsan start!");
     return (this.isOverTime(this.startTime) ? true : false);
   }
 
@@ -132,8 +136,8 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
 
-  get startTime(): Date { return new Date(2020, 2, 26, 14) }
-  get endTime(): Date { return new Date(2020, 3, 23, 14) }
+  get startTime(): Date { return new Date(2020, 2, 25, 23,40) }
+  get endTime(): Date  { return new Date(2020, 2, 25, 23,58) }
 
   // get startTime(): Date { return new Date(2020, 2, 24, 14) }
   // get endTime(): Date { return new Date(2020, 2, 24, 17, 3, 0) }
