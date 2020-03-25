@@ -2,6 +2,7 @@ import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { take } from 'rxjs/operators';
 import { Observable, interval, Subscription } from 'rxjs';
 import { Timer } from './models/timer.model';
+import 'rxjs/add/operator/map';
 
 @Component({
   selector: 'app-root',
@@ -153,12 +154,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.stop();
-  }
-
-  testTenCount() {
-    console.log("#testTenCount start!");
-
-    this.startAt  = 10;
   }
 }
 
