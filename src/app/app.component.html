@@ -12,14 +12,10 @@
           </div>
         </div>
         <div class="column">
-          <div class="sub-title" *ngIf="step === 'NORMAL'">
-            김영서 훈련소 입영까지
-          </div>
-          <div class="sub-title" *ngIf="step === 'START'">
-            지금은 훈련중! 영서 수료식까지
+          <div class="sub-title">
+            {{topMessage}}
           </div>
           <div class="title is-1">
-            <!-- {{timerSet | timerFormat}} -->
             {{this.currentValue}}
           </div>
         </div>
@@ -28,9 +24,12 @@
   </div>
 </section>
 
+
 <div class="has-text-centered is-8 is-offset-2" style="padding: 5rem 0;">
 
   <p class="subtitle">군대갑니당 ㅠ</p>
   <p class="subtitle">수료 다음날 출근합니당 ㅠ</p>
   <p class="subtitle">그냥 이런거 만들어 봤습니당 ㅠ </p>
 </div>
+
+<button (click)="testTenCount()" class="btn">10초카운트</button>

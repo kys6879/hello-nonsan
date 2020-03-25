@@ -25,22 +25,29 @@ export class AppComponent implements OnInit, OnDestroy {
 
   testSubscription$: Subscription;
 
+  topMessage: string;
+
   ngOnInit(): void {
 
     this.setStep();
     console.log("#ngOnInit 설정된 step 은 --> !",this.step);
 
+    this.setTopMessage();
 
-    // if (this.isEndNonsan()) { // 훈련 끝
-    //   this.currentValue = "끝났당~~"
-    // } else {
-    //   if (this.isStartNonsan()) { // 훈련 시작
-    //     this.startAt = this.calStartAt(this.endTime)
-    //   } else { // 훈련 전
-    //     this.startAt = this.calStartAt(this.startTime)
-    //   }
-    //   this.startCountDown();
-    // }
+    if(this.step === 'END') {
+        this.currentValue = "끝났다! 집에가자~~";
+        return ;
+    }
+
+    if (this.step === 'START') { // 훈련 시작
+      this.startAt = this.calStartAt(this.endTime)
+    } 
+    else { // 훈련 전
+      this.startAt = this.calStartAt(this.startTime)
+    }
+
+
+    this.startCountDown();
   }
 
   public startCountDown() {
@@ -48,16 +55,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
     const t: Observable<number> = interval(1000);
 
-    this.countSubscription$ = t.pipe(take(this.startAt)).map(v => { return this.startAt - (v + 1) }).subscribe(v => {
+    console.log("#startCountDown ---> this.startAt -->" , this.startAt);
+    this.countSubscription$ = t.pipe(take(this.startAt)).map(v => {return this.startAt - (v + 1) }).subscribe(v => {
       this.currentValue = this.formatValue(v);
-      console.log(v);
-    }, e => {
-      console.log("error!", e);
-    }, () => {
-      console.log("끝!!!")
-      this.setStep();
-
-      this.stop();
+    }, (e) => {}, () => {
     });
   }
 
@@ -81,6 +82,17 @@ export class AppComponent implements OnInit, OnDestroy {
      else {
       this.step = 'NORMAL'
      }
+  }
+
+  private setTopMessage(): void {
+    console.log("#setTopMessage start!");
+
+    switch(this.step) {
+      case "START" : this.topMessage = '지금은 훈련중! 영서 수료식까지'; break;
+      case "END" : this.topMessage = '드디어..'; break;
+      case "NORMAL" : this.topMessage = '김영서 훈련소 입영까지'; break;
+    }
+
   }
 
   private formatValue(v) {
@@ -136,17 +148,17 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
 
-  get startTime(): Date { return new Date(2020, 2, 25, 23,40) }
-  get endTime(): Date  { return new Date(2020, 2, 25, 23,58) }
-
-  // get startTime(): Date { return new Date(2020, 2, 24, 14) }
-  // get endTime(): Date { return new Date(2020, 2, 24, 17, 3, 0) }
-
-  // get startTime(): Date { return new Date(2020, 2, 23, 14) }
-  // get endTime(): Date { return new Date(2020, 2, 23, 15) }
+  get startTime(): Date { return new Date(2020, 2, 26, 14) }
+  get endTime(): Date  { return new Date(2020, 3, 23, 14) }
 
   ngOnDestroy(): void {
     this.stop();
+  }
+
+  testTenCount() {
+    console.log("#testTenCount start!");
+
+    this.startAt  = 10;
   }
 }
 
