@@ -132,17 +132,14 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
 
-  // get startTime(): Date { return new Date(2020, 2, 26, 14) }
-  // get endTime(): Date { return new Date(2020, 3, 23, 14) }
+  get startTime(): Date { return new Date(2020, 2, 26, 14) }
+  get endTime(): Date { return new Date(2020, 3, 23, 14) }
 
   // get startTime(): Date { return new Date(2020, 2, 24, 14) }
   // get endTime(): Date { return new Date(2020, 2, 24, 17, 3, 0) }
 
   // get startTime(): Date { return new Date(2020, 2, 23, 14) }
   // get endTime(): Date { return new Date(2020, 2, 23, 15) }
-
-  get startTime(): Date { return new Date(2020, 2, 24, 18, 25) } // 입소일
-  get endTime(): Date { return new Date(2020, 3, 24, 15) } // 퇴소일
 
   ngOnDestroy(): void {
     this.stop();
